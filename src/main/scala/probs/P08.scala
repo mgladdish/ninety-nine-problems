@@ -2,12 +2,19 @@ package probs
 
 object P08 {
 
-  def compress[T](l: List[T]): List[T] = l.foldLeft(List[T]())((result, item) =>
-    if (result.headOption.map(h => h != item).getOrElse(true)) {
+  def compress[T](l: List[T]): List[T] = l.foldRight(List[T]())((item, result) =>
+    if (result.headOption.map(_ != item).getOrElse(true)) {
       item +: result
     } else {
       result
     }
-  ).reverse
+  )
+
+  def compressWithMatch[T](l: List[T]): List[T] = l match {
+    case (a :: b :: t) if a == b => compress(b :: t)
+    case (h :: t) => h +: compress(t)
+    case o@_ => o
+  }
+
 
 }
