@@ -2,12 +2,8 @@ package probs
 
 object P11 {
 
-  def encodeModified(l: List[_]): List[Any] = P09.pack(l).map(
-    pl => if (pl.size > 1) {
-      (pl.size, pl.head)
-    } else {
-      pl.head
-    }
-
-  )
+  def encodeModified(l: List[_]): List[Any] = P09.pack(l).map {
+    case (h :: Nil) => h
+    case pl@(h :: t) => (pl.size, h)
+  }
 }
